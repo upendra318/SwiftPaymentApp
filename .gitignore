@@ -1,0 +1,28 @@
+# Build output
+**/target/
+**/build/
+**/out/
+**/bin/
+
+# IDE/editor settings
+.vscode/
+.idea/
+*.iml
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Test/coverage artifacts
+**/jacoco.exec
+**/surefire-reports/
+**/coverage/
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*~
