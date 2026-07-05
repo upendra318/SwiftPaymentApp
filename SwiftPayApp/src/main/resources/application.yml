@@ -1,0 +1,36 @@
+spring:
+    application:
+        name: SwiftPaymentApp
+
+    datasource:
+        url: jdbc:postgresql://localhost:5432/swiftpay
+        username: postgres
+        password: root
+        driver-class-name: org.postgresql.Driver
+    jpa:
+        hibernate:
+            ddl-auto: update
+        show-sql: true
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.PostgreSQLDialect
+                format_sql: true
+
+    kafka:
+        bootstrap-servers: localhost:9092
+        producer:
+            key-serializer: org.apache.kafka.common.serialization.StringSerializer
+            value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+            properties:
+                acks: all
+
+sonar:
+    "sonar.projectKey": "SwiftPayApp"
+    "sonar.projectName": "SwiftPayApp"
+    "sonar.java.coveragePlugin": "jacoco"
+    "sonar.coverage.exclusions": "**/*Test.java"
+    "sonar.sources": "src/main/java"
+    "sonar.tests": "src/test/java"
+
+server:
+    port: 8081

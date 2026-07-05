@@ -1,0 +1,31 @@
+spring:
+    application:
+        name: SwiftTransferApp
+
+    datasource:
+        url: jdbc:postgresql://localhost:5432/swiftpay
+        username: postgres
+        password: root
+        driver-class-name: org.postgresql.Driver
+    jpa:
+        hibernate:
+            ddl-auto: update
+        show-sql: true
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.PostgreSQLDialect
+                format_sql: true
+
+    kafka:
+        bootstrap-servers: localhost:9092
+        consumer:
+            group-id: swift-transfer-group
+            enable-auto-commit: false
+            key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+            value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+            properties:
+                spring.json.trusted.packages: '*'
+                auto-offset-reset: earliest
+
+server:
+    port: 8082
