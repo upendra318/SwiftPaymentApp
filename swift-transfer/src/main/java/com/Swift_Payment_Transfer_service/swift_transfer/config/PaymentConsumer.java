@@ -39,7 +39,12 @@ public class PaymentConsumer {
             swiftTransferService.transferPayment(event);
             acknowledgment.acknowledge();
             log.info("Acknowledged payment event offset={}", record.offset());
+        } catch (IllegalArgumentException iae) {
+            // Validation errors: log and acknowledge so message isn't retried
+            log.warn("Validation failed for message offset={} key={} message={}", record.offset(), record.key(), iae.getMessage());
+            acknowledgment.acknowledge();
         } catch (Exception ex) {
+            // For other exceptions, log and rethrow to let Kafka retry according to configured policies
             log.error("Failed to process payment event offset={} key={}", record.offset(), record.key(), ex);
             throw ex;
         }
