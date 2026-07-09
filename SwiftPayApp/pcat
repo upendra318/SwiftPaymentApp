@@ -1,0 +1,39 @@
+name: SwiftPayApp
+version: 0.1.0
+description: SwiftPay application - default pcat with flow, build, and deploy info
+modules:
+  - api
+  - core
+flow:
+  entry: api
+  steps:
+    - name: build
+      run: ./mvnw -DskipTests package
+    - name: dockerize
+      run: docker build -t swiftpayapp:0.1.0 .
+    - name: deploy
+      run: kubectl apply -f k8s-deployment.yaml
+entrypoint: target/SwiftPayApp-0.0.1-SNAPSHOT.jar
+dependencies:
+  maven: '>=3.6'
+  java: '>=11'
+build:
+  tool: maven
+  command: ./mvnw -DskipTests package
+scripts:
+  test: ./mvnw test
+  start: java -jar target/SwiftPayApp-0.0.1-SNAPSHOT.jar
+ports:
+  - 8080
+env:
+  SPRING_PROFILES_ACTIVE: dev
+maintainers:
+  - name: automation
+    email: devnull@example.com
+repository:
+  type: git
+  url: ''
+metadata:
+  createdBy: automation
+  createdAt: 2026-07-09
+license: MIT

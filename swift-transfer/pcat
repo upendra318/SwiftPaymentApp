@@ -1,0 +1,38 @@
+name: swift-transfer
+version: 0.1.0
+description: Swift transfer microservice with build and deploy flow
+modules:
+  - service
+flow:
+  entry: service
+  steps:
+    - name: build
+      run: ./mvnw -DskipTests package
+    - name: package
+      run: ./mvnw package
+    - name: deploy
+      run: kubectl apply -f k8s-deployment.yaml
+entrypoint: target/swift-transfer-0.0.1-SNAPSHOT.jar
+dependencies:
+  java: '>=11'
+  maven: '>=3.6'
+build:
+  tool: maven
+  command: ./mvnw -DskipTests package
+scripts:
+  test: ./mvnw test
+  start: java -jar target/swift-transfer-0.0.1-SNAPSHOT.jar
+ports:
+  - 8081
+env:
+  SPRING_PROFILES_ACTIVE: dev
+maintainers:
+  - name: automation
+    email: devnull@example.com
+repository:
+  type: git
+  url: ''
+metadata:
+  createdBy: automation
+  createdAt: 2026-07-09
+license: MIT
